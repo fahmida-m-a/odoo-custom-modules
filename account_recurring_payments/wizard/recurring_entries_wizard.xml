@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Form view of wizard and menu item under customers and vendors in invoicing that opens the wizard-->
+<odoo>
+    <data>
+        <record id="recurring_entries_wizard_form_view" model="ir.ui.view">
+            <field name="name">Recurring Entries Wizard</field>
+            <field name="model">recurring.entries.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                     <field name="starting_date"/>
+                     <field name="ending_date"/> </group>
+                      <notebook>
+                         <page string="Remaining Entries"  >
+                             <field name="recurring_payment_ids" >
+                              <list>
+                                   <field name="start_date"/>
+                                     <field name="name"/>
+                                     <field name="amount" />
+                              </list>
+                             </field>
+                         </page>
+                      </notebook>
+                      <footer>
+                     <button type="object" class="btn-primary" string="Generate Entries" name="action_generate_entries"/>
+                      </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="recurring_entries_wizard_form_view_action" model="ir.actions.act_window">
+            <field name="name">Recurring Entries</field>
+            <field name="res_model">recurring.entries.wizard</field>
+            <field name="target">new</field>
+           <field name="view_id" ref="recurring_entries_wizard_form_view"/>
+        </record>
+
+        <menuitem action="recurring_entries_wizard_form_view_action"
+        id="recurring_entries_menu1"
+        parent="account.menu_finance_receivables"
+        sequence="16"/>
+
+        <menuitem action="recurring_entries_wizard_form_view_action"
+        id="recurring_entries_menu2"
+        parent="account.menu_finance_payables"
+        sequence="16"/>
+
+           </data>
+</odoo>
+
+
+
+
+
+
+
+
+
+
+
