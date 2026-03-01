@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+<t t-name="crm_dashboard.CrmDashboard" owl="1">
+
+<div class="o_crm_dashboard p-4 bg-light" style="overflow-y:scroll; height:100vh;">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold text-700">CRM Dashboard</h2>
+                <div class="btn-group shadow-sm">
+                    <button class="btn btn-white" t-att-class="{'btn-primary text-white': state.period === 'week'}" t-on-click="() => this.setPeriod('week')">This Week</button>
+                    <button class="btn btn-white" t-att-class="{'btn-primary text-white': state.period === 'month'}" t-on-click="() => this.setPeriod('month')">This Month</button>
+                    <button class="btn btn-white" t-att-class="{'btn-primary text-white': state.period === 'quarter'}" t-on-click="() => this.setPeriod('quarter')">This Quarter</button>
+                    <button class="btn btn-white" t-att-class="{'btn-primary text-white': state.period === 'year'}" t-on-click="() => this.setPeriod('year')">This Year</button>
+                </div>
+            </div>
+
+            <t t-if="state.data.is_manager">
+                 <div class="row g-3" >
+                <div class="col-md-2" t-on-click="() => this.openmanView('lead')">
+                    <div class="card shadow-sm border-0 p-2 text-center cursor-pointer hover-shadow">
+                        <div class="text-muted small fw-bold">LEADS</div>
+                        <div class="h2 mt-1 fw-bold text-primary"><t t-esc="state.data.all_leads_count"/></div>
+                    </div>
+                </div>
+                <div class="col-md-2" t-on-click="() => this.openmanView('opportunity')">
+                    <div class="card shadow-sm border-0 p-2 text-center cursor-pointer">
+                        <div class="text-muted small fw-bold">OPPORTUNITIES</div>
+                        <div class="h2 mt-1 fw-bold text-success"><t t-esc="state.data.all_opps_count"/></div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="card shadow-sm border-0 p-2 text-center">
+                        <div class="text-muted small fw-bold">EXPECTED REVENUE</div>
+                        <div class="h2 mt-1 fw-bold"><t t-esc="state.data.currency"/><t t-esc="state.data.all_expected_revenue"/></div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="card shadow-sm border-0 p-2 text-center">
+                        <div class="text-muted small fw-bold">REVENUE (INVOICED)</div>
+                        <div class="h2 mt-1 fw-bold text-info"><t t-esc="state.data.currency"/><t t-esc="state.data.all_revenue"/></div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="card shadow-sm border-0 p-2 text-center">
+                        <div class="text-muted small fw-bold">WIN RATIO(<t t-esc="state.data.all_won_count"/>/<t t-esc="state.data.all_lost_count"/>)</div>
+                        <div class="h2 mt-1 fw-bold"><t t-esc="state.data.all_win_ratio"/>%</div>
+                    </div>
+                </div>
+            </div>
+            </t>
+            <div class="row g-3" >
+                <div class="col-md-2" t-on-click="() => this.openView('lead')">
+                    <div class="card shadow-sm border-0 p-2 text-center cursor-pointer hover-shadow">
+                        <div class="text-muted small fw-bold">MY LEADS</div>
+                        <div class="h2 mt-1 fw-bold text-primary"><t t-esc="state.data.leads_count"/></div>
+                    </div>
+                </div>
+                <div class="col-md-2" t-on-click="() => this.openView('opportunity')">
+                    <div class="card shadow-sm border-0 p-2 text-center cursor-pointer">
+                        <div class="text-muted small fw-bold">MY OPPORTUNITIES</div>
+                        <div class="h2 mt-1 fw-bold text-success"><t t-esc="state.data.opps_count"/></div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="card shadow-sm border-0 p-2 text-center">
+                        <div class="text-muted small fw-bold">EXPECTED REVENUE</div>
+                        <div class="h2 mt-1 fw-bold"><t t-esc="state.data.currency"/><t t-esc="state.data.expected_revenue"/></div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="card shadow-sm border-0 p-2 text-center">
+                        <div class="text-muted small fw-bold">REVENUE (INVOICED)</div>
+                        <div class="h2 mt-1 fw-bold text-info"><t t-esc="state.data.currency"/><t t-esc="state.data.revenue"/></div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="card shadow-sm border-0 p-2 text-center">
+                        <div class="text-muted small fw-bold">WIN RATIO(<t t-esc="state.data.won_count"/>/<t t-esc="state.data.lost_count"/>)</div>
+                        <div class="h2 mt-1 fw-bold"><t t-esc="state.data.win_ratio"/>%</div>
+                    </div>
+                </div>
+            </div>
+    <div class="row g-3 mb-4">
+        <div class="col-lg-4">
+              <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title fw-bold mb-3">Leads by Month</h5>
+                <table class="table table-bordered o_table o_selected_table">
+                    <tbody>
+                        <tr t-foreach="state.leadsByMonth" t-as="m" t-key="m">
+                            <td><t t-esc="m[0]"/></td>
+                            <td class="text-end"><t t-esc="m[1]"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h6 class="fw-bold">Lost Leads</h6>
+                    <canvas id="lostChart" style="height:22vh"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+    <div class="card shadow-sm h-100">
+        <div class="card-body">
+            <h6 class="fw-bold mb-3">My Leads</h6>
+
+            <table class="table table-sm table-hover">
+                <tbody>
+                   <tr> <th>Lead</th><th>Partner</th><th>Contact</th> </tr>
+<!--                    <t t-if="state.leads">-->
+                        <tr t-foreach="state.leads" t-as="m" t-key="m.id[0]" t-on-click="() => this.openLead(m.id)">
+                            <td>
+                                <t t-esc="m.name"/>
+                            </td>
+                            <td>
+                                <t t-esc="m.partner_name"/>
+                            </td>
+                            <td>
+                                <t t-esc="m.contact_name"/>
+                            </td>
+                        </tr>
+             </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+    </div>
+
+      <div class="col-lg-8">
+            <div class="row g-3">
+
+                <div class="col-md-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            <h6 class="fw-bold mb-2">Activities</h6>
+                            <div class="chart-container" style="position: relative; height:30vh; width:100%">
+<!--                                <canvas t-att-id="'activityChart-' + state.id"></canvas>-->
+                                 <canvas id="activityChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            <h6 class="fw-bold mb-2">Leads by Medium</h6>
+                            <div class="chart-container" style="position: relative; height:30vh; width:100%">
+                                <canvas id="leadsByMediumChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            <h6 class="fw-bold mb-2">Leads by Campaign</h6>
+                            <div class="chart-container" style="position: relative; height:30vh; width:100%">
+                                <canvas id="leadsByCampaignChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+</div>
+</t>
+</templates>
